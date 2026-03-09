@@ -1,0 +1,46 @@
+Run:
+
+python manage.py createsuperuser
+
+Fill out the name, email, and password
+
+Run the server:
+
+Open admin:
+
+http://127.0.0.1:8000/admin 
+
+Enter name and password
+
+Review and edit any information
+if you choice.
+
+Go to admin.py:
+
+from django.contrib import admin
+from .models import Question, Choice
+
+admin.site.register(Question)
+admin.site.register(Choice)
+
+Now check the admin page 
+on your web browser
+
+You should see Questions and Choices
+added.
+
+Now open the question and 
+add a question
+
+Where is Paris located?
+Is Django better than Php?
+
+Now in admin.py:  
+
+Add(optional):
+
+admin.site.site_header = "Quiz App"
+admin.site.site_title = "Quiz App?"
+admin.site.index_title = "Do You Know?"
+
+Check out changes on the admin web page

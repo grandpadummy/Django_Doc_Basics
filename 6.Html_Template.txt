@@ -1,0 +1,90 @@
+ let’s use Django’s own database API:
+
+ In the views.py file:
+
+ Add:
+
+ from django.http import HttpResponse
+
+from .models import Question
+
+
+def index(request):
+    latest_question_list = Question.objects.order_by("-pub_date")[:5]
+    #5 most recent questions ***The - before pub_date sorts in descending order***
+    output = ", ".join([q.question_text for q in latest_question_list])
+    return HttpResponse(output)
+
+
+# Leave the rest of the views (detail, results, vote) unchanged
+
+
+Where is Paris located?, Is Django better than Php? ...
+This is what should be on the home web page.
+
+Add a templates folder:
+Then add a polls folder inside of it:
+
+Create a index.html file in the polls folder
+
+Add:
+
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+        <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+
+
+Now update the views.py file:
+
+Replace def index with:
+
+from django.template import loader
+
+def index(request):
+    latest_question_list = Question.objects.order_by("-pub_date")[:5]
+    template = loader.get_template("polls/index.html")
+    context = {"latest_question_list": latest_question_list}
+    return HttpResponse(template.render(context, request))
+
+
+To shortcut that we change the def index to:
+
+def index(request):
+    latest_question_list = Question.objects.order_by("-pub_date")[:5]
+    context = {"latest_question_list": latest_question_list}
+    return render(request, "polls/index.html", context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

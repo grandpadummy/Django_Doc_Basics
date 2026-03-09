@@ -1,0 +1,174 @@
+Open the shell:
+
+python manage.py shell
+
+***Note***
+Deactivate the virtual environment
+before running this command
+and make sure you are
+in the main directory
+
+Run:
+Question
+
+<class 'polls.models.Question'>
+
+Run
+
+Question.objects.all()
+
+<QuerySet []>
+
+Run:
+
+from django.utils import timezone
+
+Run:
+
+timezone.now()
+
+Followed by:
+
+question = Question(question_text="What's new?", pub_date=timezone.now())
+
+Again Followed By:
+
+question.save()
+
+Run:
+
+question.id
+
+! should be returned
+
+Run:
+
+question.question_text
+
+It should return "What's new?"
+
+Run:
+
+question.pub_date
+
+It should return the current date
+
+To change the question_text:
+
+question.question_text = "Gramps?"
+
+Run:
+
+question.save()
+
+Check beekeeper for changes after
+refreshing the table
+
+This is the ORM in Django at work
+
+
+Add:
+
+def was_published_recently(self) ->bool:
+    return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+
+To the question models
+
+Exit the shell and re-enter it;
+
+Run:
+
+question = Question.objects.first()
+question
+
+<Question: Gramps?>
+
+Run:
+
+question.was_published_recently()
+
+Question.objects.filter(id=1)
+
+<QuerySet [<Question: Gramps?>]>
+Run:
+
+Question.objects.filter(question_text__startswith="Gramps")
+
+<QuerySet [<Question: Gramps?>]>
+
+Question.objects.get(id=2)
+
+DoesNotExist
+
+In beekeeper under choice
+You will notice a question_id which 
+is a foreign key.
+
+Question.objects.get(pk=1)
+
+<Question: Gramps?>
+
+question.choice_set.all()
+
+<QuerySet []>
+
+Add 3 choices:
+
+question.choice_set.create(choice_text="Not much", votes=0)
+<Choice: Not much>
+
+question.choice_set.create(choice_text="The sky", votes=0)
+<Choice: The sky>
+
+c = question.choice_set.create(choice_text="Just hacking again", votes=0)
+
+question.choice_set.all()
+
+c = question.choice_set.filter(choice_text__startswith="Just hacking")
+
+c.delete()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

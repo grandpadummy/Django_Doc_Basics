@@ -1,0 +1,107 @@
+We are going to add some choices
+in the admin page:
+
+Add:
+
+Choose the question followed by
+save and add another until
+you are done with your choices
+
+Check them out in the poll page
+you should see a list of choices
+
+Because it may cause alot of
+uneccessary work, we are going
+to use a template system
+
+Add:
+
+<li><a href="{% url 'detail' question.id %}">{{ question.question_text }}</a></li>
+
+In place of the a tag in index.html
+
+Now we add the name spacing to 
+the urls page
+
+from django.urls import path
+
+from . import views
+
+app_name = "polls"
+urlpatterns = [
+    path("", views.index, name="index"),
+    path("<int:question_id>/", views.detail, name="detail"),
+    path("<int:question_id>/results/", views.results, name="results"),
+    path("<int:question_id>/vote/", views.vote, name="vote"),
+]
+
+Now in the index.html
+Add:
+
+<li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+
+where your adding polls: in the a tag
+
+We can add an {{% empty %}} object
+in detail.html if there are no 
+choices:
+
+
+<h1>{{ question.question_text }}</h1>
+<ul>
+{% for choice in question.choice_set.all %}
+    <li>{{ choice.choice_text }}</li>
+{{% empty %}}
+    <p>No choices are available</p>
+
+{% endfor %}
+</ul>
+
+
+A better option is an if statement:
+
+<h1>{{ question.question_text }}</h1>
+
+{% if question.choice_set.count %}
+    <ul>
+    {% for choice in question.choice_set.all %}
+        <li>{{ choice.choice_text }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No choices are available</p>
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

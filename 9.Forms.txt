@@ -1,0 +1,38 @@
+We are going to create a form in 
+the detail.html page:
+
+Add:
+
+<form action="{% url 'polls:vote' question.id %}" method="post">
+{% csrf_token %}
+<fieldset>
+    <legend><h1>{{ question.question_text }}</h1></legend>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    {% for choice in question.choice_set.all %}
+        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+    {% endfor %}
+</fieldset>
+<input type="submit" value="Vote">
+</form>
+
+We added some radio buttons for choices 
+and a submit button named vote.
+
+***Notice the csrf_token***
+This is a security feature provided by Django
+
+When you now select a radio button 
+and vote ... you should be taken 
+to a new page showing your selection
+
+In the dev tools(inspect)
+
+Navigate to network and you should see 
+vote in the chart below the graph.
+
+Click on the vote and you will see the 
+information as a post request under 
+the headers tb. You can check out the 
+payload tab to see csrf_token as 
+well as the choice number.
